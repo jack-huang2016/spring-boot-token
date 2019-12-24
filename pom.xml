@@ -13,14 +13,14 @@
         <artifactId>spring-boot-parent</artifactId>
         <version>2.1.4.RELEASE</version>
     </parent>
-    
-     <properties>
+
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
-		<jwt.version>3.3.0</jwt.version>
+		<jwt.version>3.8.0</jwt.version>
+		<fastjson.version>1.2.56</fastjson.version>
 	</properties>
-    
     
   <dependencies>
     <dependency>
@@ -40,17 +40,25 @@
 	</dependency>
 	
 	<!-- lombok -->
-	<dependency>
-		<groupId>org.projectlombok</groupId>
-		<artifactId>lombok</artifactId>
-	</dependency>
-	
-	<dependency>
-      <groupId>com.auth0</groupId>
-      <artifactId>java-jwt</artifactId>
-      <version>${jwt.version}</version>
-    </dependency>
-	
+	  <dependency>
+		  <groupId>org.projectlombok</groupId>
+		  <artifactId>lombok</artifactId>
+	  </dependency>
+
+	  <!-- jwt -->
+	  <dependency>
+		  <groupId>com.auth0</groupId>
+		  <artifactId>java-jwt</artifactId>
+		  <version>${jwt.version}</version>
+	  </dependency>
+
+	  <!-- fastjson -->
+	  <dependency>
+		  <groupId>com.alibaba</groupId>
+		  <artifactId>fastjson</artifactId>
+		  <version>${fastjson.version}</version>
+	  </dependency>
+
   </dependencies>
   
   <build>

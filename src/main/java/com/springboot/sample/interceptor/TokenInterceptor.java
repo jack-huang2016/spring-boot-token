@@ -1,16 +1,14 @@
 package com.springboot.sample.interceptor;
 
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
+import com.alibaba.fastjson.JSON;
 import com.springboot.sample.entity.Result;
 import com.springboot.sample.utils.JwtUtil;
 import com.springboot.sample.utils.ResultUtil;
-
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.PrintWriter;
 /**
  * 自定义token拦截器
  *
@@ -18,10 +16,11 @@ import com.springboot.sample.utils.ResultUtil;
  * @date 2019/06/03
  */
 public class TokenInterceptor implements HandlerInterceptor {
-	 @Override
+
+        @Override
 	    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 	        response.setCharacterEncoding("utf-8");
-	        String token = request.getHeader("access_token");
+	        String token = request.getHeader("accessToken");
 	        
 	        if (null != token) {
 	            //验证token是否正确
@@ -33,16 +32,16 @@ public class TokenInterceptor implements HandlerInterceptor {
 	        
 	        //token不存在
 	        Result result = ResultUtil.fail("请求失败!");
-	        responseMessage(response, response.getWriter(), result);
+	        responseMessage(response, result);
 	        return false;
 	    }
 
-	    @Override
+        @Override
 	    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 
 	    }
 
-	    @Override
+        @Override
 	    public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
 
 	    }
@@ -51,16 +50,20 @@ public class TokenInterceptor implements HandlerInterceptor {
 	     * 返回信息给客户端
 	     *
 	     * @param response
-	     * @param out
-	     * @param apiResponse
-	     * @throws JSONException 
+	     * @param result
+	     * @throws Exception
 	     */
-	    private void responseMessage(HttpServletResponse response, PrintWriter out, Result result) throws JSONException {
-	        response.setContentType("application/json; charset=utf-8");
-	        JSONObject jObj = new JSONObject();
-	        jObj.put("result", result);
-	        out.print(jObj.toString());
-	        out.flush();
-	        out.close();
+	    private void responseMessage(HttpServletResponse response, Result result) throws Exception {
+			PrintWriter out = null;
+			try {
+				out = response.getWriter();
+				response.setContentType("application/json; charset=utf-8");
+				out.print(JSON.toJSONString(result));
+				out.flush();
+				out.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				throw e;
+			}
 	    }
 }

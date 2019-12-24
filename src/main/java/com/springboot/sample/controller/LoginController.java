@@ -1,11 +1,5 @@
 package com.springboot.sample.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.interfaces.DecodedJWT;
@@ -14,7 +8,17 @@ import com.springboot.sample.entity.User;
 import com.springboot.sample.service.IUserService;
 import com.springboot.sample.utils.JwtUtil;
 import com.springboot.sample.utils.ResultUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * 引入com.auth0.java-jwt来实现JWT
+ */
 @RestController
 @RequestMapping("/")
 public class LoginController {
@@ -53,16 +57,10 @@ public class LoginController {
      */
     @PostMapping(value = "/getUsername")
     public Result getUsername(HttpServletRequest req) {
-    	String tokenStr = req.getHeader("accessToken");
-    	if(null != tokenStr){
-    		boolean flag = JwtUtil.verify(tokenStr);
-    		if(flag){
-    			String loginName = getLoginName(tokenStr);
-    			String userId = getUserId(tokenStr);
-    			return ResultUtil.success("成功获得用户名:" + loginName + ", 用户id为：" + userId);
-    		}
-    	}
-        return ResultUtil.fail("无token值，访问失败");
+        String tokenStr = req.getHeader("accessToken");
+        String loginName = getLoginName(tokenStr);
+        String userId = getUserId(tokenStr);
+        return ResultUtil.success("成功获得用户名:" + loginName + ", 用户id为：" + userId);
     }
     
     /**
