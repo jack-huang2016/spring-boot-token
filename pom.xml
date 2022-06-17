@@ -19,7 +19,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<jwt.version>3.8.0</jwt.version>
-		<fastjson.version>1.2.56</fastjson.version>
+		<fastjson.version>1.2.83</fastjson.version>
 	</properties>
     
   <dependencies>
